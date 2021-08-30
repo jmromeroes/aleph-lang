@@ -1,13 +1,12 @@
-use std::any::Any;
 use std::fmt;
 
 #[derive(Debug)]
-enum TokenType {
+pub enum TokenType {
     // Single-character tokens
     LeftParen, RightParen, LeftBrace, RightBrace, Comma, Dot, Minus, Plus, Semicollon, Star,
 
     // One or two character tokens.
-    Bang, BangEqual, Equal, EqualEqual, Greater, GreaterEqual, Less, LessEqual, Arrow, FunArrow,
+    Bang, BangEqual, Equal, EqualEqual, Greater, GreaterEqual, Less, LessEqual, Arrow, FunArrow, SemiColon,
 
     // Literals
     Identifier, String, Integer, Double, Float, Long,
@@ -26,8 +25,7 @@ impl fmt::Display for TokenType {
 
 pub struct Token <'a>{
     token_type: TokenType,
-    lexeme: String,
-    literal: Option<&'a dyn Any>,
+    lexeme: &'a str,
     line: u8
 }
 

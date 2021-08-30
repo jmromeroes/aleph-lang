@@ -1,19 +1,21 @@
-mod tokens;
+use crate::{
+    tokens::{Token, TokenType}
+};
 
-struct Scanner {
+pub struct Scanner <'a>{
     source: String,
-    tokens: &Vec<tokens::Token>,
+    tokens: Vec<Token<'a>>,
     start: u8,
     current: u8,
     line: u8,
     ident: u8
 }
 
-impl Scanner {
-    fn new(source: String) -> Scanner {
+impl Scanner<'_>{
+    pub fn new(source: String) -> Self {
 	Scanner {
 	    source: source,
-	    tokens: Vec::new(),
+	    tokens: Vec::<Token>::new(),
 	    start: 0,
 	    current: 0,
 	    line: 0,
@@ -21,37 +23,41 @@ impl Scanner {
 	}
     }
     
-    fn scan_tokens(&self) -> Vec<tokens::Token> {
+    fn scan_tokens(&self) -> Vec<Token> {
 	while !self.is_at_end() {
-	    start = current;
+	    self.start = self.current;
 	    self.scan_token();
 	}
 
-	self.tokens.push(Token {token_type: tokens::TokenType::EOF, lexeme: "", None, self.line});
+	self.tokens.push(Token {token_type: TokenType::EOF, lexeme: "", line: self.line});
 	self.tokens
     }
 
     fn is_at_end(&self) -> bool {
-	self.current >= source.len()
+	self.current >= self.source.len() as u8
     }
 
     fn scan_token(&self){
-	let c: char = advance();
+	let c: char = self.advance();
 	match c {
-	    '(' => self.addToken(tokens::TokenType::LeftParen),
-	    ')' => self.addToken(tokens::TokenType::RightParen),		
-	    '{' => self.addToken(tokens::TokenType::LeftBrace),
-	    '}' => self.addToken(tokens::TokenType::RightBrace),
-	    ',' => self.addToken(tokens::TokenType::Comma),
-	    '.' => self.addToken(tokens::TokenType::Dot),
-	    '-' => self.addToken(tokens::TokenType::Minus),
-	    '+' => self.addToken(tokens::TokenType::Plus),
-	    ';' => self.addToken(tokens::TokenType::SemiColon),
-	    '*' => self.addToken(tokens::TokenType::Star)
+	    '(' => self.add_token(TokenType::LeftParen),
+	    ')' => self.add_token(TokenType::RightParen),		
+	    '{' => self.add_token(TokenType::LeftBrace),
+	    '}' => self.add_token(TokenType::RightBrace),
+	    ',' => self.add_token(TokenType::Comma),
+	    '.' => self.add_token(TokenType::Dot),
+	    '-' => self.add_token(TokenType::Minus),
+	    '+' => self.add_token(TokenType::Plus),
+	    ';' => self.add_token(TokenType::SemiColon),
+	    '*' => self.add_token(TokenType::Star)
 	}
     }
 
-    fn advance() -> char {
-	return self.source.chars().next().unwrap();
+    fn advance(&self) -> char {
+	self.source.chars().next().unwrap()
+    }
+
+    fn add_token(&self, token: TokenType){
+	
     }
 }
