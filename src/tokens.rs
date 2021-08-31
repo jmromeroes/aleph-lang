@@ -24,9 +24,9 @@ impl fmt::Display for TokenType {
 }
 
 pub struct Token <'a>{
-    token_type: TokenType,
-    lexeme: &'a str,
-    line: u8
+    pub token_type: TokenType,
+    pub lexeme: &'a str,
+    pub line: u8
 }
 
 impl fmt::Display for Token<'_> {

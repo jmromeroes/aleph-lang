@@ -23,21 +23,20 @@ impl Scanner<'_>{
 	}
     }
     
-    fn scan_tokens(&self) -> Vec<Token> {
+    fn scan_tokens(&mut self) {
 	while !self.is_at_end() {
 	    self.start = self.current;
 	    self.scan_token();
 	}
 
 	self.tokens.push(Token {token_type: TokenType::EOF, lexeme: "", line: self.line});
-	self.tokens
     }
 
     fn is_at_end(&self) -> bool {
 	self.current >= self.source.len() as u8
     }
 
-    fn scan_token(&self){
+    fn scan_token(&mut self){
 	let c: char = self.advance();
 	match c {
 	    '(' => self.add_token(TokenType::LeftParen),
@@ -49,7 +48,8 @@ impl Scanner<'_>{
 	    '-' => self.add_token(TokenType::Minus),
 	    '+' => self.add_token(TokenType::Plus),
 	    ';' => self.add_token(TokenType::SemiColon),
-	    '*' => self.add_token(TokenType::Star)
+	    '*' => self.add_token(TokenType::Star),
+	    _ => ()
 	}
     }
 

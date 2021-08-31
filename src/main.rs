@@ -28,7 +28,7 @@ fn run_file(file_path: &String){
 	Ok(_) => {
 	    println!("Execution complete!");
 	}
-	Err(error) => {
+	Err(_error) => {
 	    println!("Unexpected error in code");
 	    process::exit(65);
 	}
@@ -55,7 +55,7 @@ fn run_prompt(){
 
 fn run(code: String) -> Result<(), ()> {
     let scanner = scanner::Scanner::new(code);
-    Ok(println!("Code: {}", code))
+    Ok(())
 }
 
 fn error(line: u8, message: String){
